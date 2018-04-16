@@ -1,5 +1,7 @@
 package com.francis.bestroute.vo;
 
+import com.google.android.gms.location.places.Place;
+
 import java.io.Serializable;
 
 /**
@@ -9,24 +11,14 @@ import java.io.Serializable;
 public class MainItemVO implements Serializable{
     int num;
     String address;
-    double latitude; // latitude
+    Place place;
 
-    double longitude; // longitude
-
-    public double getLatitude() {
-        return latitude;
+    public Place getPlace() {
+        return place;
     }
 
-    public void setLatitude(double latitude) {
-        this.latitude = latitude;
-    }
-
-    public double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(double longitude) {
-        this.longitude = longitude;
+    public void setPlace(Place place) {
+        this.place = place;
     }
 
     public int getNum() {

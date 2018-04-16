@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.francis.bestroute.R;
 import com.francis.bestroute.adapter.MainListAdapter;
 import com.francis.bestroute.base.BaseActivity;
 import com.francis.bestroute.vo.MainItemVO;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlacePicker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -33,8 +36,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Bind(R.id.cal)
     Button cal;
 
-    int count=0;
-
+    int count = 0;
+    int PLACE_PICKER_REQUEST = 1;
 
 
     List<MainItemVO> datas = new ArrayList<>();
@@ -51,7 +54,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void init() {
         super.init();
-         adapter = new MainListAdapter(this, datas, R.layout.layout_line);
+        adapter = new MainListAdapter(this, datas, R.layout.layout_line);
 
         listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
@@ -66,30 +69,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     public void onClick(View v) {
 
-        if( v.getId() == R.id.add ) {
-//            MainItemVO vo = new MainItemVO();
-//            vo.setAddress("sadfasdf");
-//            vo.setNum(count++);
-//            datas.add(vo);
-//            adapter.notifyDataSetChanged();
+        if (v.getId() == R.id.add) {
+            try {
+                PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+                startActivityForResult(builder.build(MainActivity.this), PLACE_PICKER_REQUEST);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
 
-            Intent intent = new Intent(MainActivity.this, SearchActivity.class);
-            startActivityForResult(intent,1);
-
-        }else if(v.getId() == R.id.map){
+        } else if (v.getId() == R.id.map) {
 
             Intent intent = new Intent(MainActivity.this, MapsActivity.class);
             startActivity(intent);
         }
     }
 
-    @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 1){
-            datas.add(((MainItemVO) data.getExtras().get("data")).setNum(count++));
-            adapter.notifyDataSetChanged();
-;        }
+        if (requestCode == PLACE_PICKER_REQUEST) {
+            if (resultCode == RESULT_OK) {
+                Place place = PlacePicker.getPlace(data, this);
+                MainItemVO vo = new MainItemVO();
+                vo.setAddress(place.getAddress().toString());
+                vo.setPlace(place);
+                datas.add(vo);
+                adapter.notifyDataSetChanged();
+                String toastMsg = String.format("Place: %s", place.getName());
+                Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
+            }
+        }
     }
 
 }
