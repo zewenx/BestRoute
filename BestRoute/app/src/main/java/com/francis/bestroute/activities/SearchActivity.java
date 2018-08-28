@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.francis.bestroute.GPS.GPSTracker;
 import com.francis.bestroute.R;
@@ -15,6 +16,7 @@ import com.francis.bestroute.vo.MainItemVO;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.android.gms.location.places.ui.PlaceSelectionListener;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -36,6 +38,7 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
     private GPSTracker gps;
 
     private Place currentPlace;
+    int PLACE_PICKER_REQUEST = 1;
 
     PlaceAutocompleteFragment placeAutoComplete;
 
@@ -53,14 +56,23 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MainItemVO vo = new MainItemVO();
-                vo.setAddress(currentPlace.getAddress().toString());
-                vo.setLatitude(currentPlace.getLatLng().latitude);
-                vo.setLongitude(currentPlace.getLatLng().longitude);
-                Intent data = new Intent();
-                data.putExtra("data",vo);
-                SearchActivity.this.setResult(1,data);
-                SearchActivity.this.finish();
+//                MainItemVO vo = new MainItemVO();
+//                vo.setAddress(currentPlace.getAddress().toString());
+//                vo.setLatitude(currentPlace.getLatLng().latitude);
+//                vo.setLongitude(currentPlace.getLatLng().longitude);
+//                Intent data = new Intent();
+//                data.putExtra("data",vo);
+//                SearchActivity.this.setResult(1,data);
+//                SearchActivity.this.finish();
+
+                try {
+
+                    PlacePicker.IntentBuilder builder = new PlacePicker.IntentBuilder();
+
+                    startActivityForResult(builder.build(SearchActivity.this), PLACE_PICKER_REQUEST);
+                }catch (Exception e){
+                    e.printStackTrace();
+                }
             }
         });
 
@@ -106,6 +118,8 @@ public class SearchActivity extends FragmentActivity implements OnMapReadyCallba
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney, 15f));
 
     }
+
+
 
 
 }
