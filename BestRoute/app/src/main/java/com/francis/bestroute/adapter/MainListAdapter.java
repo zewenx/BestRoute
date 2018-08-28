@@ -24,12 +24,12 @@ public class MainListAdapter extends AbsCommomAdapter<MainItemVO> {
     protected void injectData(ViewHolder holder, final MainItemVO mainItemVO) {
         holder.setTextViewText(R.id.num,Integer.toString(mainItemVO.getNum()));
         holder.setTextViewText(R.id.address,mainItemVO.getAddress());
-        holder.getViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mDatas.remove(mainItemVO);
-                MainListAdapter.this.notifyDataSetChanged();
-            }
-        });
+//        holder.getViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                mDatas.remove(mainItemVO);
+//                MainListAdapter.this.notifyDataSetChanged();
+//            }
+//        });
     }
 }

@@ -2,6 +2,7 @@ package com.francis.bestroute.base;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -15,7 +16,7 @@ import butterknife.ButterKnife;
  * 创建人：zeven
  * 创建时间：16/4/13 上午11:21
  */
-public class BaseActivity extends Activity {
+public class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

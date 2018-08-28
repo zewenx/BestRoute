@@ -19,14 +19,5 @@
         android:gravity="center_vertical"
         android:id="@+id/address"
         />
-    <Button
-        android:layout_width="60dp"
-        android:layout_height="match_parent"
-        android:layout_alignParentRight="true"
-        android:text="delete"
-        android:id="@+id/delete"
-        android:layout_centerVertical="true"
-        />
-
 
 </RelativeLayout>
