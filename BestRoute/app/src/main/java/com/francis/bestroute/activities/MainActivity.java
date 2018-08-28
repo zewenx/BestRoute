@@ -2,8 +2,8 @@ package com.francis.bestroute.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ListView;
 
 import com.francis.bestroute.R;
@@ -24,14 +24,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     @Bind(R.id.map)
-    Button button;
+    FloatingActionButton button;
     @Bind(R.id.list)
     ListView listView;
 
     @Bind(R.id.add)
-    Button add;
+    FloatingActionButton add;
     @Bind(R.id.cal)
-    Button cal;
+    FloatingActionButton cal;
 
     int count=0;
 
