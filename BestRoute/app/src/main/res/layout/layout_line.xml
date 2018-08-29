@@ -1,23 +1,56 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="40dp">
-    <TextView
-        android:layout_width="40dp"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:id="@+id/num"
+    android:layout_height="60dp">
 
-        android:text="01"
-        />
     <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_toEndOf="@+id/num"
+        android:id="@+id/num"
+        android:layout_width="40dp"
+        android:layout_height="60dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
         android:layout_centerVertical="true"
-        android:text="city"
-        android:gravity="center_vertical"
+        android:gravity="center"
+        android:text="01" />
+
+    <TextView
         android:id="@+id/address"
-        />
+        android:layout_width="343dp"
+        android:layout_height="47dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginStart="40dp"
+        android:gravity="center_vertical"
+        android:lineSpacingMultiplier="0.5"
+        android:text="city1"
+        android:textColor="@android:color/background_dark"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/address2"
+        android:layout_width="match_parent"
+        android:layout_height="29dp"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="40dp"
+        android:layout_marginTop="31dp"
+        android:gravity="center_vertical"
+        android:lineSpacingMultiplier="0.8"
+        android:text="city2222222222222223333333333333333333333333333333333333333333333333333"
+        android:textSize="@dimen/place_autocomplete_prediction_secondary_text" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/delete"
+        android:layout_width="26dp"
+        android:layout_height="26dp"
+        android:layout_alignParentEnd="true"
+        android:layout_centerInParent="true"
+        android:layout_marginRight="8dp"
+        android:scaleType="center"
+
+        android:src="@drawable/ic_remove_black_24dp"
+        app:backgroundTint="#bbff2222"
+        app:elevation="0dp" />
 
 </RelativeLayout>

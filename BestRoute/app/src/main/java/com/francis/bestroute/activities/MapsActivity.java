@@ -8,9 +8,12 @@ import android.support.v4.content.ContextCompat;
 
 import com.francis.bestroute.GPS.GPSTracker;
 import com.francis.bestroute.R;
+import com.francis.bestroute.vo.MainItemVO;
 import com.google.android.gms.maps.*    ;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+
+import java.util.List;
 
 public class MapsActivity extends FragmentActivity implements OnMapReadyCallback {
 
@@ -49,12 +52,15 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             // Show rationale and request permission.
         }
-
-
+        List<MainItemVO> datas = (List<MainItemVO>) getIntent().getExtras().get("data");
+        MainItemVO center = (MainItemVO) getIntent().getExtras().get("center");
         // Add a marker in Sydney and move the camera
-        LatLng sydney = new LatLng(gps.getLatitude(),gps.getLongitude());
-        mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(sydney,15f));
+        for( int i =0;i<datas.size();i++){
+            LatLng location = new LatLng(datas.get(i).getLatitude(),datas.get(i).getLongitude());
+            mMap.addMarker(new MarkerOptions().position(location).title(datas.get(i).getName()));
+        }
+        LatLng location = new LatLng(center.getLatitude(),center.getLongitude());
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15f));
 
     }
 }

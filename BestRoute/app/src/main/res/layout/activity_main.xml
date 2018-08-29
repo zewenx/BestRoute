@@ -8,17 +8,7 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:id="@+id/bar"
-        >
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="fill_parent"
-        android:layout_below="@id/bar"
-        >
+        android:layout_height="fill_parent">
 
         <com.baoyz.swipemenulistview.SwipeMenuListView
             android:id="@+id/list"
@@ -30,29 +20,22 @@
 
     </RelativeLayout>
 
-    <RelativeLayout
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/cal"
         android:layout_width="wrap_content"
-        android:layout_height="40dp"
+        android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="10dp"
-        android:layout_centerInParent="true"
-        android:id="@+id/buttons"
-        >
+        android:layout_alignParentEnd="true"
+        android:layout_marginBottom="27dp"
+        android:layout_marginEnd="26dp"
+        android:scaleType="center"
+        app:backgroundTint="?attr/colorBackgroundFloating"
+        app:rippleColor="@color/colorPrimary"
+        app:elevation="10dp"
 
+        />
 
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/cal"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Calculate"/>
-        <android.support.design.widget.FloatingActionButton
-            android:id="@+id/map"
-            android:layout_width="wrap_content"
-            android:layout_height="40dp"
-            android:text="Map"
-            android:layout_toEndOf="@id/cal" />
-    </RelativeLayout>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/add"

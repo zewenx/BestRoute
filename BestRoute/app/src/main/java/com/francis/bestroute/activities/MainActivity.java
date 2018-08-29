@@ -1,7 +1,10 @@
 package com.francis.bestroute.activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -9,6 +12,12 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.baoyz.swipemenulistview.SwipeMenu;
 import com.baoyz.swipemenulistview.SwipeMenuCreator;
 import com.baoyz.swipemenulistview.SwipeMenuItem;
@@ -32,8 +41,6 @@ import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
-    @Bind(R.id.map)
-    FloatingActionButton button;
     @Bind(R.id.list)
     SwipeMenuListView listView;
 
@@ -62,68 +69,30 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.init();
         adapter = new MainListAdapter(this, datas, R.layout.layout_line);
 
-        SwipeMenuCreator creator = new SwipeMenuCreator() {
-
-            @Override
-            public void create(SwipeMenu menu) {
-                // create "open" item
-                SwipeMenuItem openItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                        0xCE)));
-                // set item width
-                openItem.setWidth(90);
-                // set item title
-                openItem.setTitle("Open");
-                // set item title fontsize
-                openItem.setTitleSize(18);
-                // set item title font color
-                openItem.setTitleColor(Color.WHITE);
-                // add to menu
-                menu.addMenuItem(openItem);
-
-                // create "delete" item
-                SwipeMenuItem deleteItem = new SwipeMenuItem(
-                        getApplicationContext());
-                // set item background
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
-                // set item width
-                deleteItem.setWidth(90);
-                // set a icon
-                deleteItem.setIcon(R.drawable.baseline_delete_black_24);
-                // add to menu
-                menu.addMenuItem(deleteItem);
-            }
-        };
-
-// set creator
-        listView.setMenuCreator(creator);
         listView.setAdapter(adapter);
-        listView.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
-                switch (index) {
-                    case 0:
-                        // open
-                        break;
-                    case 1:
-                        // delete
-                        break;
-                }
-                // false : close the menu; true : not close the menu
-                return false;
-            }
-        });
 
         adapter.notifyDataSetChanged();
 
-        button.setOnClickListener(this);
-
         add.setOnClickListener(this);
+        cal.setOnClickListener(this);
 
         requestPermissions(new String[]{ACCESS_FINE_LOCATION}, 1);
+        cal.setImageBitmap(textAsBitmap("GO", 80, Color.BLACK));
+    }
+
+    public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
+        Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
+        paint.setTextSize(textSize);
+        paint.setColor(textColor);
+        paint.setTextAlign(Paint.Align.LEFT);
+        float baseline = -paint.ascent(); // ascent() is negative
+        int width = (int) (paint.measureText(text) + 0.0f); // round
+        int height = (int) (baseline + paint.descent() + 0.0f);
+        Bitmap image = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888);
+
+        Canvas canvas = new Canvas(image);
+        canvas.drawText(text, 0, baseline, paint);
+        return image;
     }
 
     @Override
@@ -137,10 +106,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 e.printStackTrace();
             }
 
-        } else if (v.getId() == R.id.map) {
+        } else if (v.getId() == R.id.cal) {
 
-            Intent intent = new Intent(MainActivity.this, MapsActivity.class);
-            startActivity(intent);
         }
     }
 
@@ -149,7 +116,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             if (resultCode == RESULT_OK) {
                 Place place = PlacePicker.getPlace(data, this);
                 MainItemVO vo = new MainItemVO();
-                vo.setAddress(place.getAddress().toString());
+                vo.setAddress(place.getName().toString());
+                vo.setAddress2(place.getAddress().toString().replace(place.getName().toString() + ",", ""));
                 vo.setPlace(place);
                 datas.add(vo);
                 adapter.notifyDataSetChanged();

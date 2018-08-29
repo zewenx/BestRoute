@@ -21,6 +21,10 @@ import java.util.List;
         this.resourceID = resourceID;
     }
 
+    public Context getContext() {
+        return context;
+    }
+
     @Override
     public int getCount() {
         return dataList.size();
