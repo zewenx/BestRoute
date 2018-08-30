@@ -9,21 +9,24 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.greenrobot.eventbus.EventBus;
+
 public class DistanceUtil {
-    private DistanceUtil util;
+    private static DistanceUtil util;
     private Context mContext;
 
     private DistanceUtil(Context context) {
         mContext = context;
     }
 
-    public DistanceUtil getInstance(Context context) {
-        if (util == null)
+    public static DistanceUtil getInstance(Context context) {
+        if (util == null) {
             util = new DistanceUtil(context);
+        }
         return util;
     }
 
-    private void CalculateDistance(String from, String to) {
+    public void CalculateDistance(String from, String to) {
         RequestQueue queue = Volley.newRequestQueue(mContext);
         String url = "http://maps.googleapis.com/maps/api/distancematrix/" +
                 "json?origins=" + from + "&destinations=" + to + "&mode=driving&" +
@@ -33,7 +36,8 @@ public class DistanceUtil {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-                        System.out.println(response);
+
+                        EventBus.getDefault().post(response);
                     }
                 }, new Response.ErrorListener() {
             @Override

@@ -1,5 +1,7 @@
 package com.francis.bestroute.activities;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
@@ -9,7 +11,11 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -25,9 +31,12 @@ import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.francis.bestroute.R;
 import com.francis.bestroute.adapter.MainListAdapter;
 import com.francis.bestroute.base.BaseActivity;
+import com.francis.bestroute.utils.DistanceUtil;
 import com.francis.bestroute.vo.MainItemVO;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.ui.PlacePicker;
+
+import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -77,7 +86,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         cal.setOnClickListener(this);
 
         requestPermissions(new String[]{ACCESS_FINE_LOCATION}, 1);
-        cal.setImageBitmap(textAsBitmap("GO", 80, Color.BLACK));
+        cal.setImageBitmap(textAsBitmap("GO", convertDpToPixel(20), Color.BLACK));
     }
 
     public static Bitmap textAsBitmap(String text, float textSize, int textColor) {
@@ -107,7 +116,20 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             }
 
         } else if (v.getId() == R.id.cal) {
+            if (datas.size() > 2) {
+                count = datas.size() * (datas.size() - 1) / 2;
+                progressBar.show();
 
+                for (int i = 0; i < datas.size(); i++) {
+                    String from = "" + datas.get(i).getLatitude() + "," + datas.get(i).getLongitude();
+                    for (int j = i + 1; j < datas.size(); j++) {
+                        String to = "" + datas.get(j).getLatitude() + "," + datas.get(i).getLongitude();
+                        DistanceUtil.getInstance(MainActivity.this).CalculateDistance(from, to);
+                    }
+                }
+            }else {
+                toastText(R.string.need_more_places);
+            }
         }
     }
 
@@ -124,6 +146,21 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 String toastMsg = String.format("Place: %s", place.getName());
                 Toast.makeText(this, toastMsg, Toast.LENGTH_LONG).show();
             }
+        }
+    }
+
+    @Subscribe
+    public void onEventMainThread(String item) {
+        // TODO Auto-generated method stub
+        System.out.println(item);
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        count--;
+        if (count == 0) {
+            progressBar.dismiss();
         }
     }
 
