@@ -35,4 +35,5 @@ dependencies {
     implementation 'com.android.support:design:26.1.0'
     testCompile 'junit:junit:4.12'
     implementation 'com.android.volley:volley:1.0.0'
+    implementation 'co.dift.ui.swipetoaction:library:1.1'
 }

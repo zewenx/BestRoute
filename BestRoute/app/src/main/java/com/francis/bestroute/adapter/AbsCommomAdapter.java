@@ -1,6 +1,7 @@
 package com.francis.bestroute.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
@@ -10,7 +11,7 @@ import java.util.List;
 /**
  * Created by zeven on 15/10/30.
  */
- abstract  public class AbsCommomAdapter<T> extends BaseAdapter {
+ abstract  public class AbsCommomAdapter<T> extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     protected Context context;
     protected List<T> dataList;
     private int resourceID;
