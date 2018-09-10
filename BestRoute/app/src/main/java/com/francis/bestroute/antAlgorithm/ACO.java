@@ -1,5 +1,11 @@
 package com.francis.bestroute.antAlgorithm;
 
+import android.inputmethodservice.Keyboard;
+
+import com.francis.bestroute.vo.Elements;
+import com.francis.bestroute.vo.JsonRootBean;
+import com.francis.bestroute.vo.Rows;
+
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -59,43 +65,27 @@ public class ACO {
      * @param filename 数据文件名，该文件存储所有城市节点坐标数据
      * @throws IOException
      */
-    private void init(String filename) throws IOException {
-        // 读取数据
-        int[] x;
-        int[] y;
-        String strbuff;
-        BufferedReader data = new BufferedReader(new InputStreamReader(
-                new FileInputStream(filename)));
+    public void init(JsonRootBean object) {
+
         distance = new int[cityNum][cityNum];
-        x = new int[cityNum];
-        y = new int[cityNum];
-        for (int i = 0; i < cityNum; i++) {
-            // 读取一行数据，数据格式1 6734 1453
-            strbuff = data.readLine();
-            // 字符分割
-            String[] strcol = strbuff.split(" ");
-            x[i] = Integer.valueOf(strcol[1]);// x坐标
-            y[i] = Integer.valueOf(strcol[2]);// y坐标
-        }
-        // 计算距离矩阵
-        // 针对具体问题，距离计算方法也不一样，此处用的是att48作为案例，它有48个城市，距离计算方法为伪欧氏距离，最优值为10628
-        for (int i = 0; i < cityNum - 1; i++) {
-            distance[i][i] = 0; // 对角线为0
-            for (int j = i + 1; j < cityNum; j++) {
-                double rij = Math
-                        .sqrt(((x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j])
-                                * (y[i] - y[j])) / 10.0);
-                // 四舍五入，取整
-                int tij = (int) Math.round(rij);
-                if (tij < rij) {
-                    distance[i][j] = tij + 1;
-                    distance[j][i] = distance[i][j];
-                } else {
-                    distance[i][j] = tij;
-                    distance[j][i] = distance[i][j];
-                }
+
+        for(int i =0;i<cityNum;i++){
+            Rows rows = object.getRows().get(i);
+            for(int j=0;j<cityNum;j++){
+                distance[i][j] = rows.getElements().get(j).getDistance().getValue();
             }
         }
+
+//        int tij = (int) Math.round(rij);
+//        if (tij < rij) {
+//            distance[i][j] = tij + 1;
+//            distance[j][i] = distance[i][j];
+//        } else {
+//            distance[i][j] = tij;
+//            distance[j][i] = distance[i][j];
+//        }
+
+
         distance[cityNum - 1][cityNum - 1] = 0;
         // 初始化信息素矩阵
         pheromone = new float[cityNum][cityNum];
@@ -113,7 +103,7 @@ public class ACO {
         }
     }
 
-    public void solve() {
+    public int[] solve() {
         // 迭代MAX_GEN次
         for (int g = 0; g < MAX_GEN; g++) {
             // antNum只蚂蚁
@@ -152,7 +142,7 @@ public class ACO {
         }
 
         // 打印最佳结果
-        printOptimal();
+        return bestTour;
     }
 
     // 更新信息素
@@ -171,13 +161,6 @@ public class ACO {
         }
     }
 
-    private void printOptimal() {
-        System.out.println("The optimal length is: " + bestLength);
-        System.out.println("The optimal tour is: ");
-        for (int i = 0; i < cityNum + 1; i++) {
-            System.out.println(bestTour[i]);
-        }
-    }
 
 
     /**
@@ -186,9 +169,7 @@ public class ACO {
      */
     public static void main(String[] args) throws IOException {
         System.out.println("Start....");
-        ACO aco = new ACO(48, 10, 100, 1.f, 5.f, 0.5f);
-        aco.init("c://data.txt");
-        aco.solve();
+
     }
 
 }

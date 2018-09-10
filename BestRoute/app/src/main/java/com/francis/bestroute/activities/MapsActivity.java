@@ -11,6 +11,7 @@ import com.francis.bestroute.R;
 import com.francis.bestroute.vo.MainItemVO;
 import com.google.android.gms.maps.*    ;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.List;
@@ -52,15 +53,28 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
         } else {
             // Show rationale and request permission.
         }
-        List<MainItemVO> datas = (List<MainItemVO>) getIntent().getExtras().get("data");
-        MainItemVO center = (MainItemVO) getIntent().getExtras().get("center");
-        // Add a marker in Sydney and move the camera
-        for( int i =0;i<datas.size();i++){
-            LatLng location = new LatLng(datas.get(i).getLatitude(),datas.get(i).getLongitude());
-            mMap.addMarker(new MarkerOptions().position(location).title(datas.get(i).getName()));
+        String orders = (String) getIntent().getExtras().get("order");
+
+        if(orders!= null && orders.equals("order")){
+            List<MainItemVO> datas = (List<MainItemVO>) getIntent().getExtras().get("data");
+            for (int i = 0; i < datas.size(); i++) {
+                LatLng location = new LatLng(datas.get(i).getLatitude(), datas.get(i).getLongitude());
+                Marker marker = mMap.addMarker(new MarkerOptions().position(location).title(""+datas.get(i).getOrder()));
+                marker.showInfoWindow();
+            }
+            LatLng location = new LatLng(datas.get(0).getLatitude(), datas.get(0).getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f));
+        }else {
+            List<MainItemVO> datas = (List<MainItemVO>) getIntent().getExtras().get("data");
+            MainItemVO center = (MainItemVO) getIntent().getExtras().get("center");
+            // Add a marker in Sydney and move the camera
+            for (int i = 0; i < datas.size(); i++) {
+                LatLng location = new LatLng(datas.get(i).getLatitude(), datas.get(i).getLongitude());
+                mMap.addMarker(new MarkerOptions().position(location).title(datas.get(i).getName()));
+            }
+            LatLng location = new LatLng(center.getLatitude(), center.getLongitude());
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location, 15f));
         }
-        LatLng location = new LatLng(center.getLatitude(),center.getLongitude());
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(location,15f));
 
     }
 }

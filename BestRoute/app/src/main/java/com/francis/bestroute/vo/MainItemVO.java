@@ -10,7 +10,25 @@ import java.io.Serializable;
  */
 
 public class MainItemVO implements Serializable{
-    int num;
+    int id;
+    int order;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     String address;
     String address2;
     double latitude;
@@ -59,14 +77,6 @@ public class MainItemVO implements Serializable{
         setName(place.getName().toString());
     }
 
-    public int getNum() {
-        return num;
-    }
-
-    public MainItemVO setNum(int num) {
-        this.num = num;
-        return this;
-    }
 
     public String getAddress() {
         return address;

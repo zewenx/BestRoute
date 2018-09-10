@@ -29,7 +29,7 @@ public class DistanceUtil {
     public void CalculateDistance(String from, String to) {
         RequestQueue queue = Volley.newRequestQueue(mContext);
         String url = "http://maps.googleapis.com/maps/api/distancematrix/" +
-                "json?origins=" + from + "&destinations=" + to + "&mode=driving&" +
+                "json?origins=" + from + "&destinations=" + to + "&mode=bicycling&" +
                 "language=en-EN&sensor=false";
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,

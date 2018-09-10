@@ -27,7 +27,7 @@ public class MainListAdapter extends AbsCommomAdapter<MainItemVO> {
 
     @Override
     protected void injectData(ViewHolder holder, final MainItemVO mainItemVO) {
-        holder.setTextViewText(R.id.num,Integer.toString(mainItemVO.getNum()));
+        holder.setTextViewText(R.id.num,Integer.toString(mainItemVO.getId()));
         holder.setTextViewText(R.id.address,mainItemVO.getAddress());
         holder.setTextViewText(R.id.address2,mainItemVO.getAddress2());
         holder.getViewById(R.id.delete).setOnClickListener(new View.OnClickListener() {
