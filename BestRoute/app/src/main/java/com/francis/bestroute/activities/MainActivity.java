@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Toast;
@@ -88,6 +89,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
             }
         });
+        listView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter.notifyDataSetChanged();
 
