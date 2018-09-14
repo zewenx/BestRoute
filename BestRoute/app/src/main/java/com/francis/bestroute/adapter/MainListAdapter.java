@@ -32,16 +32,16 @@ public class MainListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolde
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         MainItemVO item = mDatas.get(position);
         ViewHolder vh = (ViewHolder) holder;
-        vh.titleView.setText(item.getTitle());
-        vh.authorView.setText(item.getAuthor());
-        vh.imageView.setImageURI(Uri.parse(item.getImageUrl()));
+        vh.address2.setText(item.getAddress2());
+        vh.address.setText(item.getAddress());
+        vh.number.setText(item.getName());
         vh.data = item;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.layoutID, parent, false);
+                .inflate(layoutID, parent, false);
 
         return new ViewHolder(view);
     }

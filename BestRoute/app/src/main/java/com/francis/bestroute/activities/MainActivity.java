@@ -7,8 +7,8 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.Toast;
 
 import com.francis.bestroute.R;
@@ -23,14 +23,13 @@ import com.google.android.gms.location.places.ui.PlacePicker;
 import com.google.gson.Gson;
 
 import org.greenrobot.eventbus.Subscribe;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
+import co.dift.ui.SwipeToAction;
 
 import static android.Manifest.permission.ACCESS_FINE_LOCATION;
 
@@ -39,7 +38,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
 
     @Bind(R.id.list)
-    ListView listView;
+    RecyclerView listView;
 
     @Bind(R.id.add)
     FloatingActionButton add;
@@ -64,9 +63,31 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void init() {
         super.init();
-        adapter = new MainListAdapter(this, datas, R.layout.layout_line);
+        adapter = new MainListAdapter(datas, R.layout.layout_line);
 
         listView.setAdapter(adapter);
+
+        new SwipeToAction(listView, new SwipeToAction.SwipeListener() {
+            @Override
+            public boolean swipeLeft(Object itemData) {
+                return false;
+            }
+
+            @Override
+            public boolean swipeRight(Object itemData) {
+                return false;
+            }
+
+            @Override
+            public void onClick(Object itemData) {
+
+            }
+
+            @Override
+            public void onLongClick(Object itemData) {
+
+            }
+        });
 
         adapter.notifyDataSetChanged();
 
